@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 import Tabs from '../components/Tabs';
 import { addToCart } from '../services/cartService';
 import './ProductInfo.css';
-import StarRatingComponent from 'react-star-rating-component';
+import Rating from 'react-rating';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -173,13 +173,15 @@ const ProductInfo = ({ cart = [], setCart }) => {
               </div>
               <div className="form-group">
                 <label>Rating:</label>
-                <StarRatingComponent
-                  name="productRating"
-                  starCount={5}
-                  value={rating}
-                  onStarClick={(nextValue) => setRating(nextValue)}
-                  starSize={30}
-                />
+                <div style={{ fontSize: '24px', color: '#FFD700' }}>
+                  <Rating
+                    initialRating={rating}
+                    onChange={setRating}
+                    emptySymbol="☆"
+                    fullSymbol="★"
+                    fractions={2}
+                  />
+                </div>
               </div>
               <div className="form-group">
                 <label htmlFor="comment">Your Review:</label>
