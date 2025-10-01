@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Register = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -22,7 +24,7 @@ const Register = () => {
     };
 
     try {
-      const response = await axios.post('/api/user/register', userData, { withCredentials: true });
+      const response = await axios.post(`${API_URL}/api/user/register`, userData, { withCredentials: true });
       if (response?.data?.success) {
         window.location.href = '/';
       } else {

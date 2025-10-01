@@ -5,6 +5,8 @@ import Navbar from '../components/Navbar';
 import Tabs from '../components/Tabs';
 import './Cart.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Cart({ cart, setCart }) {
   const navigate = useNavigate();
   
@@ -13,14 +15,14 @@ function Cart({ cart, setCart }) {
     const checkAuthAndFetchCart = async () => {
       try {
         // Check if user is authenticated
-        const response = await axios.get('/api/user/user-details', { withCredentials: true });
+            const response = await axios.get(`${API_URL}/api/user/user-details`, { withCredentials: true });
         if (!response.data.success) {
           navigate('/login');
           return;
         }
         
         // Fetch cart from backend
-        const cartResponse = await axios.get('/api/cart/get', { withCredentials: true });
+            const cartResponse = await axios.get(`${API_URL}/api/cart/get`, { withCredentials: true });
         if (cartResponse.data.success) {
           setCart(cartResponse.data.data || []);
         }

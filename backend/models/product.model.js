@@ -39,7 +39,40 @@ const productSchema = new mongoose.Schema({
     publish : {
         type : Boolean,
         default : true
-    }
+    },
+    ratings: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5
+    },
+    numReviews: {
+        type: Number,
+        default: 0
+    },
+    reviews: [
+        {
+            reviewerName: {
+                type: String,
+                required: true
+            },
+            rating: {
+                type: Number,
+                required: true,
+                min: 1,
+                max: 5
+            },
+            comment: {
+                type: String,
+                required: true,
+                trim: true
+            },
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ]
 },{
     timestamps : true
 })

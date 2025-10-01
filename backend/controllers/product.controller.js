@@ -1,4 +1,5 @@
 import ProductModel from "../models/product.model.js";
+import mongoose from "mongoose";
 
 export const createProductController = async(request,response)=>{
     try {
@@ -244,6 +245,15 @@ export const addReviewController = async(request,response)=>{
         const { id } = request.params
         const { reviewerName, rating, comment } = request.body
 
+        // Validate product ID format
+        if(!id || !mongoose.Types.ObjectId.isValid(id)){
+            return response.status(400).json({
+                message : "Invalid product ID format",
+                error : true,
+                success : false
+            })
+        }
+
         if(!reviewerName || !rating || !comment){
             return response.status(400).json({
                 message : "Please provide reviewer name, rating, and comment",
@@ -267,6 +277,15 @@ export const addReviewController = async(request,response)=>{
                 error : true,
                 success : false
             })
+        }
+
+        console.log('Product found:', product.name);
+        console.log('Product reviews field:', product.reviews);
+
+        // Initialize reviews array if it doesn't exist
+        if (!product.reviews) {
+            product.reviews = [];
+            console.log('Initialized reviews array');
         }
 
         // Add review to product

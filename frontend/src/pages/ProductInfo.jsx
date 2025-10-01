@@ -7,6 +7,8 @@ import { addToCart } from '../services/cartService';
 import './ProductInfo.css';
 import StarRatingComponent from 'react-star-rating-component';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const ProductInfo = ({ cart = [], setCart }) => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -19,7 +21,7 @@ const ProductInfo = ({ cart = [], setCart }) => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.post('/api/products/get-product-details', { productId: id });
+        const response = await axios.post(`${API_URL}/api/products/get-product-details`, { productId: id });
         setProduct(response.data?.data);
       } catch (error) {
         console.error('Error fetching product:', error);
@@ -38,7 +40,7 @@ const ProductInfo = ({ cart = [], setCart }) => {
 
     try {
       const response = await axios.post(
-        `/api/products/${id}/review`,
+        `${API_URL}/api/products/${id}/review`,
         { reviewerName, rating, comment }
       );
       
@@ -81,7 +83,7 @@ const ProductInfo = ({ cart = [], setCart }) => {
   
     try {
       // Check if user is authenticated first
-      const authResponse = await axios.get('/api/user/user-details', { withCredentials: true });
+      const authResponse = await axios.get(`${API_URL}/api/user/user-details`, { withCredentials: true });
       if (!authResponse.data.success) {
         alert('Please login to add items to cart');
         navigate('/login');

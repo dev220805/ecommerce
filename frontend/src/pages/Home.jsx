@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'; // For navigation
 import Navbar from '../components/Navbar';
 import Tabs from '../components/Tabs';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import './Home.css';
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -29,7 +30,7 @@ const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.post('/api/products/get', { page: 1, limit: 20 });
+        const response = await axios.post(`${API_URL}/api/products/get`, { page: 1, limit: 20 });
         console.log('Fetched products:', response.data);
         setProducts(response.data?.data || []);
       } catch (error) {
@@ -108,35 +109,35 @@ const Home = () => {
           {products.length > 0 ? (
             products.map((product) => (
               <div key={product._id} className="col-6 col-md-4 mb-4">
-                <Link
-                  to={`/product/${product._id}`}
-                  className="card-link"
-                  style={{ textDecoration: 'none', color: 'inherit' }}
+                <div 
+                  className="card"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate(`/product/${product._id}`)}
                 >
-                  <div className="card">
-                    <img
-                      src={product.image && product.image.length > 0 ? product.image[0]?.url || product.image[0] : '/path/to/default-image.jpg'}
-                      className="card-img-top"
-                      alt={product.name}
-                      style={{ height: '200px', objectFit: 'cover' }}
-                    />
-                    <div className="card-body">
-                      <h5 className="card-title">{product.name}</h5>
-                      <p className="card-text">{product.description}</p>
-                      <p className="card-text">
-                        <strong>${product.price}</strong>
-                      </p>
-                      <span className="free-delivery">Free Delivery</span>
-                      <Link
-                        to={`/product/${product._id}`}
-                        className="btn btn-primary"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        Buy Now
-                      </Link>
-                    </div>
+                  <img
+                    src={product.image && product.image.length > 0 ? product.image[0]?.url || product.image[0] : '/path/to/default-image.jpg'}
+                    className="card-img-top"
+                    alt={product.name}
+                    style={{ height: '200px', objectFit: 'cover' }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{product.name}</h5>
+                    <p className="card-text">{product.description}</p>
+                    <p className="card-text">
+                      <strong>${product.price}</strong>
+                    </p>
+                    <span className="free-delivery">Free Delivery</span>
+                    <button
+                      className="btn btn-primary"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/product/${product._id}`);
+                      }}
+                    >
+                      Buy Now
+                    </button>
                   </div>
-                </Link>
+                </div>
               </div>
             ))
           ) : (

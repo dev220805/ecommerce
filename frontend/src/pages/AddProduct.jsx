@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar'; 
 import './AddProduct.css';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const AddProduct = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState({
@@ -23,7 +25,7 @@ const AddProduct = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get('/api/user/user-details', { withCredentials: true });
+            const response = await axios.get(`${API_URL}/api/user/user-details`, { withCredentials: true });
         if (!response.data.success) {
           navigate('/login');
         }
@@ -88,7 +90,7 @@ const AddProduct = () => {
     }
   
     try {
-      const response = await axios.post('/api/products/create', {
+      const response = await axios.post(`${API_URL}/api/products/create`, {
         ...product,
       }, { withCredentials: true });
       console.log('Product added successfully:', response.data); // Log the response

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [user, setUser] = useState(null);
@@ -12,7 +14,7 @@ const Navbar = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get('/api/user/user-details', { withCredentials: true });
+        const response = await axios.get(`${API_URL}/api/user/user-details`, { withCredentials: true });
         if (response.data.success) {
           setUser(response.data.data);
         }
@@ -36,7 +38,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get('/api/user/logout', { withCredentials: true });
+      await axios.get(`${API_URL}/api/user/logout`, { withCredentials: true });
       setUser(null);
       setShowProfile(false);
       navigate('/');

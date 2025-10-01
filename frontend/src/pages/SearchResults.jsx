@@ -3,6 +3,8 @@ import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const SearchResults = () => {
   const [products, setProducts] = useState([]);
   const location = useLocation();
@@ -20,7 +22,7 @@ const SearchResults = () => {
     // Fetch search results from the backend
     const fetchSearchResults = async () => {
       try {
-        const response = await axios.post('/api/products/search-product', { search: query, page: 1, limit: 20 });
+        const response = await axios.post(`${API_URL}/api/products/search-product`, { search: query, page: 1, limit: 20 });
         setProducts(response.data?.data || []);
       } catch (error) {
         console.error('Error fetching search results:', error);
