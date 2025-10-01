@@ -1,0 +1,32 @@
+/* Ensure image covers the same width and height */
+/* Style the product image to ensure consistent size */
+/* Ensure the image has fixed dimensions */
+.product-image {
+    width: 320px; /* Set the fixed width */
+    height: 320px; /* Set the fixed height */
+    object-fit: cover; /* Ensure the image covers the entire area */
+  }
+  
+  
+  
+  /* Style the stars for the rating */
+  .product-rating i {
+    color: #FFD700; /* Gold color for filled stars */
+  }
+  
+  /* Adjust padding for the description section */
+  .product-description {
+    padding: 20px;
+  }
+
+  /* Target the stars inside the Add a Review section */
+.form-group .react-star-rating-component i {
+    font-size: 40px;  /* Adjust the size as needed */
+  }
+
+  .ms-2 {
+    /* margin-left: .5rem !important; */
+    margin-top: -0.1rem;
+}
+  
+  

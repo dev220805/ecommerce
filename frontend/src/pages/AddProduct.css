@@ -1,0 +1,20 @@
+/* .btn-danger.align-self-end {
+    margin-top: 1.9 rem !important; 
+  } */
+
+  .ms-2 {
+    /* margin-left: .5rem !important; */
+    margin-top: 1.9rem;
+}
+
+/* Ensure button is always visible on smaller screens */
+/* Ensure button is always visible on smaller screens with bottom margin */
+@media (max-width: 576px) {
+  .btn-primary {
+    display: block;
+    width: 100%;  /* Make the button span the full width on small screens */
+    margin-top: 10px; /* Add some space above the button */
+    margin-bottom: 20px; /* Add bottom margin to give space below the button */
+  }
+}
+

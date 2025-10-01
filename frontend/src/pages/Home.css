@@ -1,0 +1,175 @@
+/* Example styles for Home component */
+.custom-carousel {
+    height: 250px !important;
+    /* Set a fixed height for the carousel */
+    overflow: hidden !important;
+    /* Hide anything overflowing from the carousel container */
+}
+
+.custom-carousel .carousel-inner {
+    height: 100% !important;
+    /* Ensure the inner container fills the parent container */
+}
+
+.custom-carousel .carousel-item {
+    height: 100% !important;
+    /* Ensure each carousel item fills the inner container */
+}
+
+.custom-carousel .carousel-item img {
+    height: 100% !important;
+    object-fit: cover !important;
+    /* Ensures the image covers the area without stretching */
+}
+
+/* Ensure that all cards have the same height and align content */
+.card {
+    display: flex;
+    flex-direction: column;
+    /* Stack the content vertically */
+    height: 100%;
+    /* Make sure the card takes the full available height */
+    margin-bottom: 1rem;
+    /* Add some margin between cards */
+}
+
+.card-body {
+    flex-grow: 1;
+    /* Allow the body to take up the remaining space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Distribute space evenly between title, description, and button */
+}
+
+/* Set the image height and prevent overflow */
+.card-img-top {
+    height: 200px;
+    /* Fixed height for images */
+    object-fit: cover;
+    /* Ensure the images cover the area without stretching */
+}
+
+/* Style for the product name */
+.card-title {
+    font-weight: bold;
+    /* Make the product name bold */
+    text-overflow: ellipsis;
+    /* Make sure the name doesn't overflow */
+    white-space: nowrap;
+    /* Prevent the name from breaking into two lines */
+    overflow: hidden;
+    /* Hide overflow */
+}
+
+/* Style for the description text */
+.card-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* Add ellipsis if the description is too long */
+}
+
+/* Ensure the Buy Now button is aligned at the bottom of the card */
+.card-footer {
+    margin-top: auto;
+    /* Push the footer (button) to the bottom of the card */
+}
+
+/* Adjust the Buy Now button for smaller screens */
+@media (max-width: 576px) {
+    .card-footer {
+        display: none;
+        /* Hide the button on smaller screens */
+    }
+
+    .card {
+        margin: 0 !important;
+        margin-top: 0 !important;
+        /* Remove top margin for cards */
+        margin-bottom: 0 !important;
+    }
+
+    .col-6 {
+        padding: 0 5px;
+        /* Remove padding for columns and add some space between them */
+    }
+
+    .btn-primary {
+        display: none;
+        /* Hides the button on smaller screens */
+    }
+
+    .card-text {
+        color: grey;
+        /* Change description color to grey */
+        white-space: nowrap;
+        /* Prevent description from wrapping to the next line */
+        overflow: hidden;
+        /* Hide overflowed text */
+        text-overflow: ellipsis;
+        /* Display ellipsis (...) for overflowing text */
+    }
+
+    /* Ensure price remains the same color */
+    .card-body .card-text strong {
+        color: black;
+        /* Keep the price color black */
+    }
+
+    /* Add Free Delivery text below the price on smaller screens */
+    .free-delivery {
+        display: block;
+        /* Make it block-level so it appears below the price */
+        color: black;
+        /* Set text color to black */
+        margin-top: 5px;
+        /* Add a small gap above the text */
+        font-size: 14px;
+        /* Adjust font size as needed */
+    }
+
+    .col-md-4 {
+        padding: 0 !important;
+        /* Remove padding */
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* Remove gaps between rows by setting margin to 0 */
+    .row {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .row .col-md-4:first-child {
+        margin-top: 0 !important;
+    }
+
+
+}
+
+@media (min-width: 577px) {
+    .free-delivery {
+        display: none;
+        /* Hide the Free Delivery text on larger screens */
+    }
+}
+
+/* CSS for hover effect on larger screens */
+@media (min-width: 992px) {
+    .card:hover {
+      border: 2px solid white; 
+      cursor: pointer; /* Change cursor to indicate interactivity */
+    }
+  
+    .card:hover .card-text {
+      color: #007bff; /* Change description text color to blue on hover */
+    }
+  }
+  

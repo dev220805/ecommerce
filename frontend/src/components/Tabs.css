@@ -1,0 +1,25 @@
+/* Tabs.css */
+
+.nav-tabs {
+    display: flex;
+    flex-wrap: nowrap; /* Prevent wrapping of tabs */
+    overflow-x: auto; /* Enable horizontal scroll */
+    overflow-y: hidden; /* Hide vertical scroll if it appears */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+  
+  .nav-link {
+    color: black !important; /* Makes all links black */
+  }
+  
+  .nav-link.active {
+    color: black !important; /* Ensures active link color is black */
+  }
+  
+  /* Add media query for small screens */
+  @media (max-width: 579px) {
+    .nav-tabs {
+      white-space: nowrap; /* Prevent breaking of text within tabs */
+    }
+  }
+  
