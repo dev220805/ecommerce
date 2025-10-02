@@ -12,26 +12,34 @@ if(!process.env.MONGODB_URI){
 let isConnected = false;
 
 async function connectDB(){
-    // If already connected, return
-    if (isConnected) {
+    // If already connected and connection is ready, return
+    if (isConnected && mongoose.connection.readyState === 1) {
         console.log('Using existing database connection');
         return true;
     }
 
     try {
-        // Add connection options for better reliability
+        console.log('Attempting to connect to MongoDB...');
+        console.log('MongoDB URI exists:', !!process.env.MONGODB_URI);
+        
+        // Disconnect if there's a stale connection
+        if (mongoose.connection.readyState !== 0) {
+            await mongoose.disconnect();
+        }
+        
+        // Connect with optimized settings for Vercel
         await mongoose.connect(process.env.MONGODB_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 30s
-            socketTimeoutMS: 45000, // Close sockets after 45s of inactivity
-            // Remove the problematic buffer settings for serverless
-            // bufferMaxEntries: 0,
-            // bufferCommands: false,
+            serverSelectionTimeoutMS: 10000, // Increased timeout
+            socketTimeoutMS: 45000,
+            maxPoolSize: 10, // Maintain up to 10 socket connections
+            minPoolSize: 1, // Maintain at least 1 socket connection
+            maxIdleTimeMS: 30000, // Close connections after 30 seconds of inactivity
         })
         
         isConnected = true;
-        console.log("Connected to MongoDB")
+        console.log("Successfully connected to MongoDB")
         
         // Handle connection events
         mongoose.connection.on('disconnected', () => {
@@ -39,9 +47,14 @@ async function connectDB(){
             isConnected = false;
         });
         
+        mongoose.connection.on('error', (error) => {
+            console.log('MongoDB connection error:', error);
+            isConnected = false;
+        });
+        
         return true
     } catch (error) {
-        console.log("MongoDB connect error:", error)
+        console.log("MongoDB connect error:", error.message)
         isConnected = false;
         throw error
     }

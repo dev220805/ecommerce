@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
+import mongoose from 'mongoose'
 dotenv.config()
 
 import connectDB from './config/db.js'
@@ -43,6 +44,20 @@ app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
 
+// Middleware to ensure database connection before handling requests
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        console.error('Database connection failed:', error);
+        res.status(500).json({
+            message: 'Database connection failed',
+            error: true,
+            success: false
+        });
+    }
+});
 
 const PORT = process.env.PORT || 8080 
 
@@ -63,6 +78,33 @@ app.get("/health",(request,response)=>{
     })
 })
 
+// Database test endpoint
+app.get("/test-db", async (request,response)=>{
+    try {
+        const dbState = mongoose.connection.readyState;
+        const states = {
+            0: 'disconnected',
+            1: 'connected',
+            2: 'connecting',
+            3: 'disconnecting'
+        };
+        
+        response.json({
+            status: "Database test",
+            mongooseState: states[dbState],
+            mongooseStateCode: dbState,
+            hasMongoUri: !!process.env.MONGODB_URI,
+            mongoUriStart: process.env.MONGODB_URI ? process.env.MONGODB_URI.substring(0, 20) + '...' : 'Not set',
+            timestamp: new Date().toISOString()
+        })
+    } catch (error) {
+        response.status(500).json({
+            error: error.message,
+            timestamp: new Date().toISOString()
+        })
+    }
+})
+
 // API routes
 app.use('/api/user', userRouter)
 app.use('/api/products', productRouter)
@@ -77,21 +119,6 @@ app.use((err, req, res, next) => {
         error: true,
         success: false
     });
-});
-
-// Middleware to ensure database connection before handling requests
-app.use(async (req, res, next) => {
-    try {
-        await connectDB();
-        next();
-    } catch (error) {
-        console.error('Database connection failed:', error);
-        res.status(500).json({
-            message: 'Database connection failed',
-            error: true,
-            success: false
-        });
-    }
 });
 
 // For Vercel serverless functions
