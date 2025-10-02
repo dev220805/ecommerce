@@ -79,13 +79,26 @@ app.use((err, req, res, next) => {
     });
 });
 
+// Middleware to ensure database connection before handling requests
+app.use(async (req, res, next) => {
+    try {
+        await connectDB();
+        next();
+    } catch (error) {
+        console.error('Database connection failed:', error);
+        res.status(500).json({
+            message: 'Database connection failed',
+            error: true,
+            success: false
+        });
+    }
+});
+
 // For Vercel serverless functions
 if (process.env.NODE_ENV === 'production') {
-    // In production (Vercel), don't start a server
-    // Just connect to DB and export the app
-    connectDB().catch(error => {
-        console.error('Database connection failed:', error);
-    });
+    // In production (Vercel), just export the app
+    // Database connection will be handled per request
+    console.log('Production mode: Serverless function ready');
 } else {
     // In development, start the server
     connectDB().then(() => {
