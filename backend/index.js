@@ -12,12 +12,34 @@ import uploadRouter from './routes/upload.route.js'
 
 
 const app = express()
-app.use(cors({
-    credentials : true,
-    origin : process.env.FRONTEND_URL || "*",
+// CORS configuration
+const corsOptions = {
+    credentials: true,
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        const allowedOrigins = [
+            process.env.FRONTEND_URL,
+            'https://ecommerce-jr38.vercel.app',
+            'http://localhost:5173',
+            'http://localhost:3000'
+        ].filter(Boolean); // Remove undefined values
+        
+        if (allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            console.log('CORS blocked origin:', origin);
+            console.log('Allowed origins:', allowedOrigins);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
-}))
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'X-Requested-With'],
+    optionsSuccessStatus: 200 // Some legacy browsers choke on 204
+};
+
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
 
