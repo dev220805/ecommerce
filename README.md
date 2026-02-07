@@ -66,7 +66,7 @@ server/
 ### Clone Repository
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/dev220805/ecommerce
 
 Backend Setup
 cd server
